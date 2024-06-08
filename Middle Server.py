@@ -19,14 +19,14 @@ def get_loan_info():
     if not loan_id:
         return jsonify({"error": "Loan ID is required"}), 400
     
-    # Check if the loan information is in the cache
+    # ստուգել ինֆորմացիայի առկայությունը
     if loan_id in loan_cache:
         return jsonify(loan_cache[loan_id]), 200
     
-    # If not in cache, fetch from the main server
+    # եռե առկա չէ ինֆորմացիան ապա, ստանալ այն հիմնական սերվերից 
     response = requests.get(f'{MAIN_SERVER_URL}/get_loan_info', params={'loan_id': loan_id})
     if response.status_code == 200:
-        # Cache the response
+        # քեշավորում է վարկի տվյալները
         loan_cache[loan_id] = response.json()
     
     return jsonify(response.json()), response.status_code

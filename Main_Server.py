@@ -64,6 +64,26 @@ def pay_loan():
 
     return jsonify({"message": "Payment successful", "updated_loan_info": loan_info}), 200
 
+def update_payment():
+    data = request.json
+    loan_id = data.get('loan_id')
+    payment_amount = data.get('payment_amount')
+
+    if not loan_id or not payment_amount:
+        return jsonify({"error": "Loan ID and payment amount are required"}), 400
+
+    loan_info = loans.get(loan_id)
+    if not loan_info:
+        return jsonify({"error": "Loan not found"}), 404
+
+    loan_info['amount_due'] -= payment_amount
+    if loan_info['amount_due'] <= 0:
+        loan_info['amount_due'] = 0
+        loan_info['loan_status'] = 'Paid'
+        loan_info['due_date'] = None
+
+    return jsonify({"message": "Payment information updated successfully", "updated_loan_info": loan_info}), 200
+
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5000)
