@@ -40,11 +40,11 @@ def pay_loan():
     if not loan_id or not payment_amount:
         return jsonify({"error": "Loan ID and payment amount are required"}), 400
     
-    # Forward the request to the main server
+    
     response = requests.post(f'{MAIN_SERVER_URL}/pay_loan', json=data)
     
     if response.status_code == 200:
-        # If payment is successful, update the cache
+        
         updated_loan_info = response.json().get('updated_loan_info')
         if updated_loan_info:
             loan_cache[loan_id] = updated_loan_info
