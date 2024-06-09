@@ -14,7 +14,7 @@ loans = {
     },
     "1002": {
         "user_name": "User 2",
-        "loan_status": "Paid",
+        "loan_status": "Active",
         "amount_due": 68000,
         "due_date": "2024-06-01"
     },
